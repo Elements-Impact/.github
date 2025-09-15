@@ -1,0 +1,133 @@
+name: Auto-assign and Label
+on:
+  issues:
+    types: [opened, reopened]
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  auto-assign:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Auto-assign issues and PRs
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const { context } = require('@actions/github');
+          const issue = context.payload.issue || context.payload.pull_request;
+          
+          // Auto-assign based on labels or content
+          let assignees = [];
+          let labels = [];
+          
+          // Check if it's sustainability-related
+          const sustainabilityKeywords = ['environmental', 'sustainability', 'green', 'carbon', 'energy', 'efficiency'];
+          const isSustainability = sustainabilityKeywords.some(keyword => 
+            issue.title.toLowerCase().includes(keyword) || 
+            issue.body.toLowerCase().includes(keyword)
+          );
+          
+          if (isSustainability) {
+            labels.push('sustainability');
+            assignees.push('elements-impact/sustainability-team');
+          }
+          
+          // Check if it's security-related
+          const securityKeywords = ['security', 'vulnerability', 'CVE', 'auth', 'permission'];
+          const isSecurity = securityKeywords.some(keyword => 
+            issue.title.toLowerCase().includes(keyword) || 
+            issue.body.toLowerCase().includes(keyword)
+          );
+          
+          if (isSecurity) {
+            labels.push('security');
+            assignees.push('elements-impact/security-team');
+          }
+          
+          // Check if it's documentation
+          const docKeywords = ['docs', 'documentation', 'readme', 'guide'];
+          const isDocumentation = docKeywords.some(keyword => 
+            issue.title.toLowerCase().includes(keyword)
+          );
+          
+          if (isDocumentation) {
+            labels.push('documentation');
+          }
+          
+          // Auto-assign for urgent issues
+          if (issue.title.toLowerCase().includes('urgent') || 
+              issue.title.toLowerCase().includes('critical')) {
+            labels.push('priority:high');
+            assignees.push('elements-impact/maintainers');
+          }
+          
+          // Apply labels
+          if (labels.length > 0) {
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              labels: labels
+            });
+          }
+          
+          // Assign reviewers/assignees
+          if (assignees.length > 0) {
+            if (context.payload.pull_request) {
+              await github.rest.pulls.requestReviewers({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: issue.number,
+                team_reviewers: assignees
+              });
+            } else {
+              await github.rest.issues.addAssignees({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                assignees: assignees
+              });
+            }
+          }
+
+  welcome-message:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'opened'
+    steps:
+    - name: Welcome new contributors
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const { context } = require('@actions/github');
+          const issue = context.payload.issue || context.payload.pull_request;
+          
+          // Check if this is a first-time contributor
+          const { data: userIssues } = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            creator: issue.user.login,
+            state: 'all'
+          });
+          
+          if (userIssues.length === 1) {
+            const welcomeMessage = `
+            👋 Welcome to Elements Impact, @${issue.user.login}! 
+            
+            Thank you for your contribution to our mission of driving sustainable technology solutions. 
+            
+            A few things to help you get started:
+            - 📋 Check out our [Contributing Guidelines](.github/CONTRIBUTING.md)
+            - 🌱 Review our [Copilot Instructions](.copilot-instructions.md) for coding standards
+            - 🔒 Familiarize yourself with our [Code of Conduct](.github/CODE_OF_CONDUCT.md)
+            - 🌍 Learn about our sustainability focus and environmental impact goals
+            
+            Our team will review your contribution soon. Feel free to ask questions!
+            `;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: welcomeMessage
+            });
+          }
