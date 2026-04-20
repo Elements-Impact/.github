@@ -31,8 +31,6 @@ updates:
           - "jest"
           - "vitest"
     open-pull-requests-limit: 5
-    reviewers:
-      - "elements-impact/security-team"
     assignees:
       - "elements-impact/maintainers"
     commit-message:
@@ -67,8 +65,6 @@ updates:
           - "mypy"
           - "pre-commit"
     open-pull-requests-limit: 5
-    reviewers:
-      - "elements-impact/security-team"
     assignees:
       - "elements-impact/maintainers"
     commit-message:
@@ -83,8 +79,6 @@ updates:
       day: "tuesday"
       time: "09:00"
     open-pull-requests-limit: 3
-    reviewers:
-      - "elements-impact/devops-team"
     commit-message:
       prefix: "chore(docker)"
 
@@ -96,8 +90,6 @@ updates:
       day: "wednesday"
       time: "09:00"
     open-pull-requests-limit: 3
-    reviewers:
-      - "elements-impact/devops-team"
     commit-message:
       prefix: "chore(actions)"
 
@@ -109,16 +101,5 @@ updates:
       day: "thursday"
       time: "09:00"
     open-pull-requests-limit: 3
-    reviewers:
-      - "elements-impact/infrastructure-team"
     commit-message:
       prefix: "chore(terraform)"
-
-# Global settings to reduce environmental impact
-# by limiting the number of simultaneous updates
-ignore:
-  # Ignore patch updates for stable dependencies to reduce noise
-  - dependency-name: "*"
-    update-types: ["version-update:semver-patch"]
-    # Only for very stable, mature libraries
-    # Remove this ignore rule for security-critical dependencies

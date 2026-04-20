@@ -1,154 +1,141 @@
-# Elements Impact - Global GitHub Configuration
+# Elements Impact — Global GitHub Configuration
 
-This repository contains global GitHub configuration files and Copilot instructions for all Elements Impact repositories. It provides organization-wide standards, templates, and AI-assisted development guidelines that ensure consistency, quality, and alignment with our environmental sustainability mission.
+Org-wide standards, reusable workflows, and Copilot guidance for Elements Impact repositories — designed for consistency, quality, and sustainability.
 
-## 🌍 What's Included
+## How GitHub uses this repository
 
-### 🤖 AI-Assisted Development
-- **`.copilot-instructions.md`** - Global GitHub Copilot instructions for sustainable, high-quality code development
-- **AI coding standards** for all supported languages and frameworks
-- **Environmental impact considerations** for AI-assisted development
+This special repository, named `.github`, can provide “default” community health files and the organization profile:
 
-### 📋 Issue & PR Templates
-- **Bug reports** with sustainability impact assessment
-- **Feature requests** with environmental alignment criteria
-- **Documentation updates** with accessibility considerations
-- **Pull request templates** with comprehensive review checklists
+- Organization profile: `profile/README.md` renders on the org page.
+- Default community health files (used when a repo doesn’t define its own):
+  - `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SECURITY.md`, `SUPPORT.md`, `pull_request_template.md`, and files in `.github/ISSUE_TEMPLATE/`.
+- GitHub Actions workflows are not auto-applied org-wide. To share automation, publish reusable workflows here and reference them from each repository (see “Reusing workflows”).
 
-### 🤝 Community Guidelines
-- **Contributing guidelines** focused on sustainable development practices
-- **Code of conduct** promoting inclusive and environmentally conscious collaboration
-- **Security policy** for responsible vulnerability disclosure
+References: [About default community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file) • [Reusing workflows](https://docs.github.com/en/actions/writing-workflows/reusing-workflows)
 
-### ⚙️ Automation & Workflows
-- **CI/CD pipeline templates** optimized for efficiency and resource usage
-- **Dependabot configuration** for secure and sustainable dependency management
-- **Auto-assignment workflows** for faster response and better organization
+## What’s included
 
-### 🏢 Organization Profile
-- **Profile README** showcasing Elements Impact's mission and projects
-- **Community resources** and contribution opportunities
+- AI-assisted development
+  - Global Copilot guidance in `.copilot-instructions.md` (referenced by projects)
+  - Organization-wide coding principles with sustainability in mind
+- Issue & PR templates
+  - Bug/feature/documentation templates with environmental considerations
+  - Pull request template with review and sustainability checks
+- Community guidelines
+  - Contributing guidelines, Code of Conduct, Security policy
+- Automation & workflows
+  - Reusable CI/CD and auto-assignment workflows (opt-in per repo)
+  - Dependabot baseline configuration examples (opt-in per repo)
+- Organization profile
+  - `profile/README.md` with our mission and links
 
-## 🚀 How to Use
+## Quick start
 
-### For Repository Maintainers
-1. **Copy relevant templates** to your repository's `.github/` directory
-2. **Customize for your project** while maintaining organizational standards
-3. **Reference the global Copilot instructions** in your project-specific instructions
-4. **Update workflows** based on your technology stack
+### For repository maintainers
 
-### For Contributors
-1. **Read the global Copilot instructions** to understand our coding standards
-2. **Follow the contribution guidelines** for sustainable development practices
-3. **Use issue and PR templates** to provide comprehensive information
-4. **Consider environmental impact** in all contributions
+1. Community health defaults
 
-## 📁 File Structure
+- If your repo doesn’t define its own templates/policies, GitHub will use the defaults from this `.github` repository automatically.
 
-```
-.github/
-├── .copilot-instructions.md           # Global AI coding guidelines
-├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── bug_report.md              # Bug report template
-│   │   ├── feature_request.md         # Feature request template
-│   │   └── documentation.md           # Documentation update template
-│   ├── workflows/
-│   │   ├── ci-cd.yml                  # CI/CD pipeline template
-│   │   └── auto-assign.yml            # Auto-assignment workflow
-│   ├── CONTRIBUTING.md                # Contribution guidelines
-│   ├── CODE_OF_CONDUCT.md            # Community standards
-│   ├── SECURITY.md                   # Security policy
-│   ├── dependabot.yml                # Dependency management
-│   └── pull_request_template.md      # PR template
-├── profile/
-│   └── README.md                     # Organization profile
-└── README.md                         # This file
+1. Reusing workflows (recommended)
+
+- Reference shared workflows from your repo’s `.github/workflows/*.yml`:
+
+```yaml
+name: CI
+on: [push, pull_request]
+
+jobs:
+  ci:
+    uses: Elements-Impact/.github/.github/workflows/ci-cd.yml@main
+    secrets: inherit
+    with:
+      # Example inputs your reusable workflow may support
+      node-version: '20'
 ```
 
-## 🌱 Sustainability Focus
+1. Dependabot
 
-All templates and guidelines in this repository emphasize:
-- **Environmental impact assessment** in decision-making
-- **Resource-efficient development** practices
-- **Green coding standards** and optimization
-- **Sustainable infrastructure** considerations
-- **Long-term environmental benefits** measurement
+- Copy or adapt the example `dependabot.yml` here and commit it to your repo.
 
-## 🔧 Customization
+1. Copilot instructions
 
-### Repository-Specific Instructions
-Create a `.copilot-instructions.md` file in your repository that:
-1. References this global instruction file
-2. Adds project-specific requirements
-3. Maintains consistency with organizational standards
+- In your project, create a `.copilot-instructions.md` that links to the global guidance and adds project-specific rules. Example:
 
-Example:
 ```markdown
 # Project-Specific Copilot Instructions
 
-## Global Standards
-Follow the global Elements Impact Copilot instructions: [Global Instructions](https://github.com/Elements-Impact/.github/blob/main/.copilot-instructions.md)
+Follow the global instructions: [Elements Impact Copilot](https://github.com/Elements-Impact/.github/blob/main/.copilot-instructions.md)
 
-## Project-Specific Requirements
-- Additional language-specific guidelines
-- Project architecture patterns
-- Specific sustainability metrics
+Additional rules for this project:
+- Language/framework specifics
+- Architecture patterns
+- Sustainability metrics to observe
 ```
 
-### Template Customization
-- **Copy templates** to your repository's `.github/` directory
-- **Modify sections** to fit your project's specific needs
-- **Maintain core sustainability** and quality standards
-- **Add project-specific fields** as needed
+### For contributors
 
-## 📊 Quality Standards
+- Review our global Copilot guidance: [Global Instructions](https://github.com/Elements-Impact/.github/blob/main/.copilot-instructions.md)
+- Use the issue/PR templates and follow the Contributing guidelines
+- Consider environmental impact in design, performance, and infrastructure choices
 
-### Code Quality
-- **Comprehensive testing** requirements (>80% coverage)
-- **Security-first** development practices
-- **Performance optimization** for reduced resource usage
-- **Accessibility** and internationalization support
+## Repository layout (current and planned)
 
-### Environmental Standards
-- **Carbon footprint consideration** in architectural decisions
-- **Energy-efficient algorithms** and data structures
-- **Resource optimization** in infrastructure choices
-- **Sustainability impact measurement** in features
+Current:
 
-## 🤝 Contributing to Global Configuration
+```text
+.github/
+├── profile/
+│   └── README.md     # Organization profile (published on the org page)
+└── README.md         # This file
+```
 
-We welcome improvements to our global configuration:
+Planned additions (examples):
 
-1. **Create an issue** describing the proposed change
-2. **Consider impact** on all repositories
-3. **Maintain backward compatibility** where possible
-4. **Update documentation** as needed
-5. **Test changes** across different project types
+```text
+.github/
+├── .copilot-instructions.md
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   ├── feature_request.md
+│   │   └── documentation.md
+│   ├── workflows/
+│   │   ├── ci-cd.yml
+│   │   └── auto-assign.yml
+│   ├── CONTRIBUTING.md
+│   ├── CODE_OF_CONDUCT.md
+│   ├── SECURITY.md
+│   ├── dependabot.yml
+│   └── pull_request_template.md
+```
 
-### Change Process
-1. **Proposal**: Issue describing the change and rationale
-2. **Discussion**: Community review and feedback
-3. **Implementation**: PR with changes and documentation
-4. **Review**: Maintainer review and approval
-5. **Rollout**: Gradual adoption across repositories
+Note: Workflows in this repository act as reusable workflows and must be referenced from each repo’s own workflows.
 
-## 📚 Resources
+## Quality and sustainability
 
-### Documentation
-- [GitHub Organization Configuration Guide](https://docs.github.com/en/organizations)
-- [GitHub Copilot Best Practices](https://docs.github.com/en/copilot)
-- [Sustainable Software Development](https://principles.green/)
+- Write secure, well-tested code (target high coverage where practical)
+- Optimize for performance and resource efficiency
+- Support accessibility and internationalization where applicable
+- Evaluate environmental impact in architecture and runtime choices
 
-### Tools
-- [Green Software Foundation Tools](https://greensoftware.foundation/)
-- [Carbon Footprint Calculators](https://www.websitecarbon.com/)
-- [Sustainable Web Design Guidelines](https://sustainablewebdesign.org/)
+## Contributing to this repository
 
-## 💚 Our Mission
+We welcome improvements to our org-wide configuration:
 
-Every file in this repository supports Elements Impact's mission of **driving sustainable technology solutions for environmental impact**. By providing clear standards and AI-assisted development guidelines, we ensure that all our projects contribute to a more sustainable digital future.
+1. Open an issue describing the change and its org-wide impact
+2. Keep backward compatibility when possible
+3. Update docs and examples accordingly
+4. Submit a PR for review and rollout
 
----
+## Helpful resources
 
-**Questions?** Create an issue or reach out to the maintainers. Let's build sustainable technology together! 🌍
+- [GitHub Organization configuration](https://docs.github.com/en/organizations)
+- [GitHub Copilot best practices](https://docs.github.com/en/copilot)
+- [Default community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file)
+- [Reusing GitHub Actions workflows](https://docs.github.com/en/actions/writing-workflows/reusing-workflows)
+- [Principles of Sustainable Software](https://principles.green/)
+
+—
+
+Questions? Open an issue or reach out to the maintainers. Let’s build sustainable technology together. 🌍
