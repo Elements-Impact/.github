@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🌍 Elements Impact Community
+    url: https://github.com/orgs/Elements-Impact/discussions
+    about: Ask questions and discuss with the community
+  - name: 🔒 Security Vulnerability
+    url: https://github.com/Elements-Impact/.github/security/policy
+    about: Report security vulnerabilities privately
+  - name: 📚 Documentation
+    url: https://docs.elements-impact.org
+    about: View our comprehensive documentation
+  - name: 💬 General Support
+    url: mailto:support@elements-impact.org
+    about: Get help from our support team
